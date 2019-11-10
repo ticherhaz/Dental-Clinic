@@ -286,6 +286,16 @@ public class Invoice extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        printTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                printTableFocusGained(evt);
+            }
+        });
+        printTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                printTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(printTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -507,9 +517,24 @@ public class Invoice extends javax.swing.JFrame {
     }//GEN-LAST:event_InvoiceTxtActionPerformed
 
     private void PrintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintBtnActionPerformed
-        new Print().setVisible(true);
+        col = invoiceTable.getModel().getValueAt(row, 0).toString();
+        new Print(col).setVisible(true);
         dispose();
     }//GEN-LAST:event_PrintBtnActionPerformed
+
+    private void printTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_printTableFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printTableFocusGained
+
+    private void printTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printTableMouseClicked
+        // TODO add your handling code here:
+//        JTable source = (JTable) evt.getSource();
+//        int row = source.rowAtPoint(evt.getPoint());
+//        int column = source.columnAtPoint(evt.getPoint());
+//        String s = source.getModel().getValueAt(row, column) + "";
+//        col = invoiceTable.getModel().getValueAt(row, 0).toString();
+//        JOptionPane.showMessageDialog(null, col);
+    }//GEN-LAST:event_printTableMouseClicked
 
     /**
      * @param args the command line arguments
