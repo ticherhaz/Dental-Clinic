@@ -517,23 +517,31 @@ public class Invoice extends javax.swing.JFrame {
     }//GEN-LAST:event_InvoiceTxtActionPerformed
 
     private void PrintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintBtnActionPerformed
-        col = invoiceTable.getModel().getValueAt(row, 0).toString();
-        new Print(col).setVisible(true);
-        dispose();
+        //JTable source = (JTable) evt.getSource();
+
+        // String Hererow = invoiceTable.getValueAt(invoiceTable.getSelectedRow(), invoiceTable.getSelectedColumn()).toString();
+        if (!col.isEmpty()) {
+            new Print(String.valueOf(col)).setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select the item first");
+        }
+
     }//GEN-LAST:event_PrintBtnActionPerformed
 
     private void printTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_printTableFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_printTableFocusGained
 
+    private int colInt;
     private void printTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printTableMouseClicked
         // TODO add your handling code here:
-//        JTable source = (JTable) evt.getSource();
-//        int row = source.rowAtPoint(evt.getPoint());
-//        int column = source.columnAtPoint(evt.getPoint());
-//        String s = source.getModel().getValueAt(row, column) + "";
-//        col = invoiceTable.getModel().getValueAt(row, 0).toString();
-//        JOptionPane.showMessageDialog(null, col);
+        JTable source = (JTable) evt.getSource();
+        row = source.rowAtPoint(evt.getPoint());
+        colInt = source.columnAtPoint(evt.getPoint());
+        //String s = source.getModel().getValueAt(row, colInt) + "";
+        col = invoiceTable.getModel().getValueAt(row, 0).toString();
+        //JOptionPane.showMessageDialog(null, col);
     }//GEN-LAST:event_printTableMouseClicked
 
     /**

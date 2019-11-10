@@ -53,8 +53,13 @@ public class Print extends javax.swing.JFrame {
 //    }
     public void showTableData() {
         try {
+            JOptionPane.showMessageDialog(null, col);
             conn = DatabaseConnection.getConnection();
-            sql = "SELECT invoicedetails.id, invoicedetails.invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = " + col;
+            //   sql = "SELECT invoicedetails.id, invoicedetails.invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = " + col;
+
+            //THIS IS NEW SQL, TO CALL BACK THE DATA FROM THE DATABASE.
+            sql = "SELECT invoicedetails.id, invoicedetails.invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON insurancedetails.id = " + col + " AND invoicedetails.id = " + col;
+
             stmt = conn.prepareStatement(sql);
             result = stmt.executeQuery();
             if (result.next()) {
