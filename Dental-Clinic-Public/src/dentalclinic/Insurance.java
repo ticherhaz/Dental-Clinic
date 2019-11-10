@@ -9,11 +9,9 @@ import connection.DatabaseConnection;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TimeZone;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -421,7 +419,7 @@ public class Insurance extends javax.swing.JFrame {
 
         try {
             sql = "DELETE FROM insurancedetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
@@ -453,7 +451,7 @@ public class Insurance extends javax.swing.JFrame {
 
         try {
             sql = "INSERT INTO insurancedetails(id, company_name, company_contact, insurance_type, total_amount, amount_paid, balance ) VALUES (?,?,?,?,?,?,total_amount - amount_paid)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, companyTxt.getText());
@@ -476,7 +474,7 @@ public class Insurance extends javax.swing.JFrame {
 
         try {
             sql = "UPDATE insurancedetails SET id=?, company_name=?, company_contact=?, insurance_type=?, total_amount=?, amount_paid=?, balance=total_amount-amount_paid WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, companyTxt.getText());
