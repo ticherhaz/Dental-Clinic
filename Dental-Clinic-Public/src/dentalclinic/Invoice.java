@@ -8,7 +8,6 @@ package dentalclinic;
 import connection.DatabaseConnection;
 import java.awt.*;
 import java.sql.*;
-import java.util.TimeZone;
 import javax.swing.*;
 import javax.swing.table.*;
 import net.proteanit.sql.DbUtils;
@@ -447,7 +446,7 @@ public class Invoice extends javax.swing.JFrame {
 
         try {
             sql = "INSERT INTO invoicedetails(id, invoice) VALUES (?,?)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, InvoiceTxt.getText());
@@ -465,7 +464,7 @@ public class Invoice extends javax.swing.JFrame {
 
         try {
             sql = "UPDATE invoicedetails SET id=?, invoice=? WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, InvoiceTxt.getText());
@@ -491,7 +490,7 @@ public class Invoice extends javax.swing.JFrame {
 
         try {
             sql = "DELETE FROM invoicedetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
