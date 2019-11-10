@@ -125,6 +125,7 @@ public class LogIn extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
         jLabel1.setName(""); // NOI18N
 
+        jButtonShowPassword.setBackground(new java.awt.Color(102, 51, 153));
         jButtonShowPassword.setText("Show");
         jButtonShowPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,7 +150,7 @@ public class LogIn extends javax.swing.JFrame {
                     .addComponent(usernameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonShowPassword)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(minimizeLbl)
                 .addGap(18, 18, 18)
                 .addComponent(exitLbl)
