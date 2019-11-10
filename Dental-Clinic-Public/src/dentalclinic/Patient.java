@@ -5,6 +5,7 @@
  */
 package dentalclinic;
 
+import connection.DatabaseConnection;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.sql.*;
@@ -17,90 +18,66 @@ import net.proteanit.sql.*;
  *
  * @author user
  */
-public class Patient extends javax.swing.JFrame
-{
+public class Patient extends javax.swing.JFrame {
+
     Connection conn;
     String col, sql, search;
     int row;
     PreparedStatement stmt;
     ResultSet result;
     TableRowSorter<DefaultTableModel> tableRow;
+
     /**
      * Creates new form Patient
      */
-    public Patient() 
-    {
+    public Patient() {
         initComponents();
         showTableData();
         updateTableData();
-        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)patientTable.getDefaultRenderer(Object.class);
-        renderer.setHorizontalAlignment( JLabel.CENTER);
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) patientTable.getDefaultRenderer(Object.class);
+        renderer.setHorizontalAlignment(JLabel.CENTER);
         patientTable.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 15));
         patientTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         patientTable.getColumnModel().getColumn(1).setPreferredWidth(230);
         patientTable.getColumnModel().getColumn(2).setPreferredWidth(325);
         patientTable.getColumnModel().getColumn(3).setPreferredWidth(300);
     }
-    
-    public void showTableData()
-    {
-        try
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
-            sql = "SELECT id AS 'No.', patient_name AS 'Patient Name', patient_details AS 'Patient Details', assigned_doctor AS 'Assigned Doctor' FROM patientdetails";
-            stmt = conn.prepareStatement(sql);
-            result= stmt.executeQuery();
-            patientTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
 
-        catch( SQLException | HeadlessException ex)
-        {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
-                result.close();
-                stmt.close();
-            }
-            
-            catch (SQLException | HeadlessException ex) 
-            {
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }
-        
-        updateTableData();
-        
-    }
-    
-    public void updateTableData()
-    {
-        try
-        {
+    public void showTableData() {
+        try {
+            conn = DatabaseConnection.getConnection();
             sql = "SELECT id AS 'No.', patient_name AS 'Patient Name', patient_details AS 'Patient Details', assigned_doctor AS 'Assigned Doctor' FROM patientdetails";
             stmt = conn.prepareStatement(sql);
             result = stmt.executeQuery();
             patientTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
-        
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 result.close();
                 stmt.close();
+            } catch (SQLException | HeadlessException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
+        }
 
-            catch(Exception ex)
-            {
+        updateTableData();
+
+    }
+
+    public void updateTableData() {
+        try {
+            sql = "SELECT id AS 'No.', patient_name AS 'Patient Name', patient_details AS 'Patient Details', assigned_doctor AS 'Assigned Doctor' FROM patientdetails";
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+            patientTable.setModel(DbUtils.resultSetToTableModel(result));
+        } catch (SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            try {
+                result.close();
+                stmt.close();
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }
@@ -436,29 +413,27 @@ public class Patient extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void patientSearchBarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_patientSearchBarFocusGained
-       
-        if(patientSearchBar.getText().equals("Search"))
-        {
+
+        if (patientSearchBar.getText().equals("Search")) {
             patientSearchBar.setText("");
         }
     }//GEN-LAST:event_patientSearchBarFocusGained
 
     private void patientSearchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_patientSearchBarFocusLost
-        
-        if(patientSearchBar.getText().equals(""))
-        {
+
+        if (patientSearchBar.getText().equals("")) {
             patientSearchBar.setText("Search");
         }
     }//GEN-LAST:event_patientSearchBarFocusLost
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        
+
         dispose();
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void signoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutBtnActionPerformed
-        
+
         dispose();
         new LogIn().setVisible(true);
     }//GEN-LAST:event_signoutBtnActionPerformed
@@ -472,8 +447,8 @@ public class Patient extends javax.swing.JFrame
     }//GEN-LAST:event_minimizeLblMouseClicked
 
     private void patientSearchBarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_patientSearchBarKeyPressed
-        
-        DefaultTableModel patientTbl = (DefaultTableModel)patientTable.getModel();
+
+        DefaultTableModel patientTbl = (DefaultTableModel) patientTable.getModel();
         search = patientSearchBar.getText();
         tableRow = new TableRowSorter<>(patientTbl);
         patientTable.setRowSorter(tableRow);
@@ -485,86 +460,73 @@ public class Patient extends javax.swing.JFrame
         row = patientTable.getSelectedRow();
         col = patientTable.getModel().getValueAt(row, 0).toString();
 
-        try
-        {
+        try {
             sql = "DELETE FROM patientdetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
-        }
-        
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
-        
+
         updateTableData();
         showTableData();
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void idTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusGained
-        if(idTxt.getText().equals("No"))
-        {
+        if (idTxt.getText().equals("No")) {
             idTxt.setText("");
         }
     }//GEN-LAST:event_idTxtFocusGained
 
     private void idTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusLost
-        if(idTxt.getText().equals(""))
-        {
+        if (idTxt.getText().equals("")) {
             idTxt.setText("No");
         }
     }//GEN-LAST:event_idTxtFocusLost
 
     private void nameTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusGained
-        if(nameTxt.getText().equals("Name"))
-        {
+        if (nameTxt.getText().equals("Name")) {
             nameTxt.setText("");
         }
     }//GEN-LAST:event_nameTxtFocusGained
 
     private void nameTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusLost
-        if(nameTxt.getText().equals(""))
-        {
+        if (nameTxt.getText().equals("")) {
             nameTxt.setText("Name");
         }
     }//GEN-LAST:event_nameTxtFocusLost
 
     private void detailsTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusGained
-        if(detailsTxt.getText().equals("Patient Details"))
-        {
+        if (detailsTxt.getText().equals("Patient Details")) {
             detailsTxt.setText("");
         }
     }//GEN-LAST:event_detailsTxtFocusGained
 
     private void detailsTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusLost
-        if(detailsTxt.getText().equals(""))
-        {
+        if (detailsTxt.getText().equals("")) {
             detailsTxt.setText("Patient Details");
         }
     }//GEN-LAST:event_detailsTxtFocusLost
 
     private void assignedDoctorTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_assignedDoctorTxtFocusGained
-        if(assignedDoctorTxt.getText().equals("Assigned Doctor"))
-        {
+        if (assignedDoctorTxt.getText().equals("Assigned Doctor")) {
             assignedDoctorTxt.setText("");
         }
     }//GEN-LAST:event_assignedDoctorTxtFocusGained
 
     private void assignedDoctorTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_assignedDoctorTxtFocusLost
-        if(assignedDoctorTxt.getText().equals(""))
-        {
+        if (assignedDoctorTxt.getText().equals("")) {
             assignedDoctorTxt.setText("Assigned Doctor");
         }
     }//GEN-LAST:event_assignedDoctorTxtFocusLost
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "UPDATE patientdetails SET patient_name=?, patient_details=?, assigned_doctor=? WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(4, idTxt.getText());
             stmt.setString(1, nameTxt.getText());
@@ -572,10 +534,7 @@ public class Patient extends javax.swing.JFrame
             stmt.setString(3, assignedDoctorTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data updated succesfully");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -585,23 +544,19 @@ public class Patient extends javax.swing.JFrame
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "INSERT INTO patientdetails(patient_name, patient_details, assigned_doctor) VALUES (?,?,?)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, nameTxt.getText());
             stmt.setString(2, detailsTxt.getText());
             stmt.setString(3, assignedDoctorTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data succesfully added");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
-        
+
         updateTableData();
         showTableData();
     }//GEN-LAST:event_addBtnActionPerformed
@@ -617,8 +572,7 @@ public class Patient extends javax.swing.JFrame
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) 
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -643,10 +597,8 @@ public class Patient extends javax.swing.JFrame
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() 
-        {
-            public void run() 
-            {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 new Patient().setVisible(true);
             }
         });

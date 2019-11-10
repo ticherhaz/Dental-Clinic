@@ -5,6 +5,7 @@
  */
 package dentalclinic;
 
+import connection.DatabaseConnection;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.sql.*;
@@ -17,93 +18,70 @@ import net.proteanit.sql.*;
  *
  * @author user
  */
-public class Staff extends javax.swing.JFrame 
-{
+public class Staff extends javax.swing.JFrame {
+
     Connection conn;
     String col, sql, search;
     int row;
     PreparedStatement stmt;
     ResultSet result;
     TableRowSorter<DefaultTableModel> tableRow;
+
     /**
      * Creates new form Staff
      */
-    public Staff() 
-    {
+    public Staff() {
         initComponents();
         showTableData();
         updateTableData();
-        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)staffTable.getDefaultRenderer(Object.class);
-        renderer.setHorizontalAlignment( JLabel.CENTER);
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) staffTable.getDefaultRenderer(Object.class);
+        renderer.setHorizontalAlignment(JLabel.CENTER);
         staffTable.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 15));
         staffTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         staffTable.getColumnModel().getColumn(1).setPreferredWidth(230);
         staffTable.getColumnModel().getColumn(2).setPreferredWidth(325);
     }
-    
-    public void showTableData()
-    {
-        try
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
-            sql = "SELECT id AS 'No.', staff_name AS 'Staff Name', staff_details AS 'Staff Details' FROM staffdetails";
-            stmt = conn.prepareStatement(sql);
-            result= stmt.executeQuery();
-            staffTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
 
-        catch( SQLException | HeadlessException ex)
-        {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
-                result.close();
-                stmt.close();
-            }
-            
-            catch (SQLException | HeadlessException ex) 
-            {
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }
-        
-        updateTableData();
-        
-    }
-    
-    public void updateTableData()
-    {
-        try
-        {
+    public void showTableData() {
+        try {
+            conn = DatabaseConnection.getConnection();
             sql = "SELECT id AS 'No.', staff_name AS 'Staff Name', staff_details AS 'Staff Details' FROM staffdetails";
             stmt = conn.prepareStatement(sql);
             result = stmt.executeQuery();
             staffTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
-        
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 result.close();
                 stmt.close();
+            } catch (SQLException | HeadlessException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
+        }
 
-            catch(Exception ex)
-            {
+        updateTableData();
+
+    }
+
+    public void updateTableData() {
+        try {
+            sql = "SELECT id AS 'No.', staff_name AS 'Staff Name', staff_details AS 'Staff Details' FROM staffdetails";
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+            staffTable.setModel(DbUtils.resultSetToTableModel(result));
+        } catch (SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            try {
+                result.close();
+                stmt.close();
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -391,16 +369,14 @@ public class Staff extends javax.swing.JFrame
 
     private void staffSearchBarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_staffSearchBarFocusGained
 
-        if(staffSearchBar.getText().equals("Search"))
-        {
+        if (staffSearchBar.getText().equals("Search")) {
             staffSearchBar.setText("");
         }
     }//GEN-LAST:event_staffSearchBarFocusGained
 
     private void staffSearchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_staffSearchBarFocusLost
 
-        if(staffSearchBar.getText().equals(""))
-        {
+        if (staffSearchBar.getText().equals("")) {
             staffSearchBar.setText("Search");
         }
     }//GEN-LAST:event_staffSearchBarFocusLost
@@ -426,85 +402,71 @@ public class Staff extends javax.swing.JFrame
     }//GEN-LAST:event_exitLblMouseClicked
 
     private void nameTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusGained
-        if(nameTxt.getText().equals("Staff Name"))
-        {
+        if (nameTxt.getText().equals("Staff Name")) {
             nameTxt.setText("");
         }
     }//GEN-LAST:event_nameTxtFocusGained
 
     private void nameTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusLost
-        if(nameTxt.getText().equals(""))
-        {
+        if (nameTxt.getText().equals("")) {
             nameTxt.setText("Staff Name");
         }
     }//GEN-LAST:event_nameTxtFocusLost
 
     private void detailsTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusGained
-        if(detailsTxt.getText().equals("Details"))
-        {
+        if (detailsTxt.getText().equals("Details")) {
             detailsTxt.setText("");
         }
     }//GEN-LAST:event_detailsTxtFocusGained
 
     private void detailsTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusLost
-        if(detailsTxt.getText().equals(""))
-        {
+        if (detailsTxt.getText().equals("")) {
             detailsTxt.setText("Details");
         }
     }//GEN-LAST:event_detailsTxtFocusLost
 
     private void idTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusGained
-        if(idTxt.getText().equals("No"))
-        {
+        if (idTxt.getText().equals("No")) {
             idTxt.setText("");
         }
     }//GEN-LAST:event_idTxtFocusGained
 
     private void idTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusLost
-        if(idTxt.getText().equals(""))
-        {
+        if (idTxt.getText().equals("")) {
             idTxt.setText("No");
         }
     }//GEN-LAST:event_idTxtFocusLost
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "INSERT INTO staffdetails(staff_name, staff_details) VALUES (?,?)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, nameTxt.getText());
             stmt.setString(2, detailsTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data succesfully added");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
-        
+
         updateTableData();
         showTableData();
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "UPDATE staffdetails SET staff_name=?, staff_details=? WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, nameTxt.getText());
             stmt.setString(2, detailsTxt.getText());
             stmt.setString(3, idTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data updated succesfully");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -517,20 +479,16 @@ public class Staff extends javax.swing.JFrame
         row = staffTable.getSelectedRow();
         col = staffTable.getModel().getValueAt(row, 0).toString();
 
-        try
-        {
+        try {
             sql = "DELETE FROM staffdetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
-        }
-        
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
-        
+
         updateTableData();
         showTableData();
     }//GEN-LAST:event_deleteBtnActionPerformed

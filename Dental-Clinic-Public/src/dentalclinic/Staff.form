@@ -88,7 +88,7 @@
                                   <Component id="deleteBtn" min="-2" pref="88" max="-2" attributes="0"/>
                               </Group>
                               <Component id="nameTxt" alignment="0" max="32767" attributes="0"/>
-                              <Component id="idTxt" alignment="0" pref="288" max="32767" attributes="0"/>
+                              <Component id="idTxt" alignment="0" max="32767" attributes="0"/>
                               <Component id="LabelStaff" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="LabelNo" min="-2" pref="288" max="-2" attributes="0"/>

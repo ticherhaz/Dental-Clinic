@@ -5,6 +5,7 @@
  */
 package dentalclinic;
 
+import connection.DatabaseConnection;
 import java.awt.*;
 import java.sql.*;
 import java.util.TimeZone;
@@ -16,99 +17,75 @@ import net.proteanit.sql.DbUtils;
  *
  * @author user
  */
-public class Invoice extends javax.swing.JFrame 
-{
+public class Invoice extends javax.swing.JFrame {
+
     Connection conn;
     String col, sql, search;
     int row;
     PreparedStatement stmt;
     ResultSet result;
     TableRowSorter<DefaultTableModel> tableRow;
+
     /**
      * Creates new form Invoice
      */
-    public Invoice() 
-    {
+    public Invoice() {
         initComponents();
         showTableData();
         updateTableData();
-        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)invoiceTable.getDefaultRenderer(Object.class);
-        renderer.setHorizontalAlignment( JLabel.CENTER);
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) invoiceTable.getDefaultRenderer(Object.class);
+        renderer.setHorizontalAlignment(JLabel.CENTER);
         invoiceTable.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 15));
         invoiceTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         invoiceTable.getColumnModel().getColumn(1).setPreferredWidth(230);
     }
 
-    public void showTableData()
-    {
-        try
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
-            sql = "SELECT id AS 'ID', invoice AS 'Invoice' FROM invoicedetails";
-            stmt = conn.prepareStatement(sql);
-            result= stmt.executeQuery();
-            invoiceTable.setModel(DbUtils.resultSetToTableModel(result));
-            
-            sql = "SELECT invoice AS 'Invoice Description', insurancedetails.company_name AS 'Company Name', insurancedetails.company_contact AS 'Contact', insurancedetails.insurance_type AS 'Insurance Type', insurancedetails.total_amount AS 'Total Amount', insurancedetails.amount_paid AS 'Amount Paid', insurancedetails.balance AS 'Balance' FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = insurancedetails.id";
-            stmt = conn.prepareStatement(sql);
-            result= stmt.executeQuery();
-            printTable.setModel(DbUtils.resultSetToTableModel(result));
-            
-        }
-
-        catch( SQLException | HeadlessException ex)
-        {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
-                result.close();
-                stmt.close();
-            }
-            
-            catch (SQLException | HeadlessException ex) 
-            {
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }
-        
-        updateTableData();
-        
-    }
-    
-    public void updateTableData()
-    {
-        try
-        {
+    public void showTableData() {
+        try {
+            conn = DatabaseConnection.getConnection();
             sql = "SELECT id AS 'ID', invoice AS 'Invoice' FROM invoicedetails";
             stmt = conn.prepareStatement(sql);
             result = stmt.executeQuery();
             invoiceTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
-        
-        catch( SQLException | HeadlessException ex)
-        {
+
+            sql = "SELECT invoice AS 'Invoice Description', insurancedetails.company_name AS 'Company Name', insurancedetails.company_contact AS 'Contact', insurancedetails.insurance_type AS 'Insurance Type', insurancedetails.total_amount AS 'Total Amount', insurancedetails.amount_paid AS 'Amount Paid', insurancedetails.balance AS 'Balance' FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = insurancedetails.id";
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+            printTable.setModel(DbUtils.resultSetToTableModel(result));
+
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 result.close();
                 stmt.close();
+            } catch (SQLException | HeadlessException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
+        }
 
-            catch(Exception ex)
-            {
+        updateTableData();
+
+    }
+
+    public void updateTableData() {
+        try {
+            sql = "SELECT id AS 'ID', invoice AS 'Invoice' FROM invoicedetails";
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+            invoiceTable.setModel(DbUtils.resultSetToTableModel(result));
+        } catch (SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            try {
+                result.close();
+                stmt.close();
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -421,16 +398,14 @@ public class Invoice extends javax.swing.JFrame
 
     private void InvoiceSearchBarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InvoiceSearchBarFocusGained
 
-        if(InvoiceSearchBar.getText().equals("Search"))
-        {
+        if (InvoiceSearchBar.getText().equals("Search")) {
             InvoiceSearchBar.setText("");
         }
     }//GEN-LAST:event_InvoiceSearchBarFocusGained
 
     private void InvoiceSearchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InvoiceSearchBarFocusLost
 
-        if(InvoiceSearchBar.getText().equals(""))
-        {
+        if (InvoiceSearchBar.getText().equals("")) {
             InvoiceSearchBar.setText("Search");
         }
     }//GEN-LAST:event_InvoiceSearchBarFocusLost
@@ -460,8 +435,8 @@ public class Invoice extends javax.swing.JFrame
     }//GEN-LAST:event_exitLblMouseClicked
 
     private void InvoiceSearchBarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_InvoiceSearchBarKeyPressed
-        
-        DefaultTableModel invoiceTbl = (DefaultTableModel)invoiceTable.getModel();
+
+        DefaultTableModel invoiceTbl = (DefaultTableModel) invoiceTable.getModel();
         search = InvoiceSearchBar.getText();
         tableRow = new TableRowSorter<>(invoiceTbl);
         invoiceTable.setRowSorter(tableRow);
@@ -470,19 +445,15 @@ public class Invoice extends javax.swing.JFrame
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "INSERT INTO invoicedetails(id, invoice) VALUES (?,?)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, InvoiceTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data succesfully added");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -492,20 +463,16 @@ public class Invoice extends javax.swing.JFrame
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "UPDATE invoicedetails SET id=?, invoice=? WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, InvoiceTxt.getText());
             stmt.setString(3, idTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data updated succesfully");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -522,17 +489,13 @@ public class Invoice extends javax.swing.JFrame
         row = invoiceTable.getSelectedRow();
         col = invoiceTable.getModel().getValueAt(row, 0).toString();
 
-        try
-        {
+        try {
             sql = "DELETE FROM invoicedetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
-        }
-
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 

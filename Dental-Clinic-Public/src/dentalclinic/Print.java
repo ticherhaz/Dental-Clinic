@@ -5,17 +5,15 @@
  */
 package dentalclinic;
 
+import connection.DatabaseConnection;
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TimeZone;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -29,16 +27,14 @@ public class Print extends javax.swing.JFrame {
     PreparedStatement stmt;
     ResultSet result;
     TableRowSorter<DefaultTableModel> tableRow;
-    
+
     /**
      * Creates new form Print
      */
-    
-    
     public Print() {
         initComponents();
         showTableData();
-        
+
         labelid.setText(labelid.getText());
         labelinvoice.setText(labelinvoice.getText());
         labelcompany.setText(labelcompany.getText());
@@ -48,33 +44,21 @@ public class Print extends javax.swing.JFrame {
         labelpaid.setText(labelpaid.getText());
         labelbal.setText(labelbal.getText());
     }
-    
-    public void showTableData()
-    {
-        try
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+
+    public void showTableData() {
+        try {
+            conn = DatabaseConnection.getConnection();
             sql = "SELECT invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = insurancedetails.id";
             stmt = conn.prepareStatement(sql);
-            result= stmt.executeQuery();
+            result = stmt.executeQuery();
             //(result));
-        }
-
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 result.close();
                 stmt.close();
-            }
-            
-            catch (SQLException | HeadlessException ex) 
-            {
+            } catch (SQLException | HeadlessException ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }

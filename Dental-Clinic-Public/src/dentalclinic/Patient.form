@@ -96,7 +96,7 @@
                       </Group>
                       <Component id="detailsTxt" alignment="0" max="32767" attributes="0"/>
                       <Component id="nameTxt" alignment="0" max="32767" attributes="0"/>
-                      <Component id="idTxt" alignment="0" pref="288" max="32767" attributes="0"/>
+                      <Component id="idTxt" alignment="0" max="32767" attributes="0"/>
                       <Component id="labelassdoctor" alignment="0" max="32767" attributes="0"/>
                       <Component id="labeldetails" alignment="0" max="32767" attributes="0"/>
                       <Component id="labelname" alignment="0" max="32767" attributes="0"/>

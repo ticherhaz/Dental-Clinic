@@ -5,9 +5,9 @@
  */
 package dentalclinic;
 
+import connection.DatabaseConnection;
 import java.awt.*;
 import java.sql.*;
-import java.util.*;
 import javax.swing.*;
 
 /**
@@ -204,16 +204,16 @@ public class LogIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        
+
         String sql = "SELECT * from user WHERE username=? AND password=?;";
-        
+
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            Connection conn = DatabaseConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, usernameTxt.getText());
             stmt.setString(2, passwordTxt.getText());
             ResultSet result = stmt.executeQuery();
-            
+
             if (result.next()) {
                 JOptionPane.showMessageDialog(null, "Login succesful");
                 dispose();
@@ -224,7 +224,7 @@ public class LogIn extends javax.swing.JFrame {
                 passwordTxt.setText("");
             }
         } catch (SQLException | HeadlessException ex) {
-            JOptionPane.showMessageDialog(null, "Error connection during establishment");
+            JOptionPane.showMessageDialog(null, "Error connection during establishment ex:" + ex.getLocalizedMessage());
         }
     }//GEN-LAST:event_loginBtnActionPerformed
 
@@ -272,7 +272,7 @@ public class LogIn extends javax.swing.JFrame {
 
     private void jButtonShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShowPasswordActionPerformed
         // TODO add your handling code here:
-        passwordTxt.setEchoChar((char)0);
+        passwordTxt.setEchoChar((char) 0);
     }//GEN-LAST:event_jButtonShowPasswordActionPerformed
 
     /**

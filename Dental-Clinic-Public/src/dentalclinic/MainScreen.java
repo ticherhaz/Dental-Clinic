@@ -9,14 +9,14 @@ package dentalclinic;
  *
  * @author user
  */
-public class MainScreen extends javax.swing.JFrame 
-{
+public class MainScreen extends javax.swing.JFrame {
+
     int mouseX, mouseY;
+
     /**
      * Creates new form MainScreen
      */
-    public MainScreen() 
-    {
+    public MainScreen() {
         initComponents();
     }
 
@@ -148,8 +148,8 @@ public class MainScreen extends javax.swing.JFrame
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         int X = evt.getXOnScreen();
         int Y = evt.getYOnScreen();
-        
-        this.setLocation(X-mouseX, Y-mouseY);
+
+        this.setLocation(X - mouseX, Y - mouseY);
     }//GEN-LAST:event_formMouseDragged
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed

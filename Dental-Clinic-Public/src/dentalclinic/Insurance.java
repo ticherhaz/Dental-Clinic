@@ -5,6 +5,7 @@
  */
 package dentalclinic;
 
+import connection.DatabaseConnection;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -26,87 +27,63 @@ import net.proteanit.sql.DbUtils;
  */
 public class Insurance extends javax.swing.JFrame {
 
-     Connection conn;
+    Connection conn;
     String col, sql, search;
     int row;
     PreparedStatement stmt;
     ResultSet result;
     TableRowSorter<DefaultTableModel> tableRow;
-    
+
     /**
      * Creates new form Insurance
      */
     public Insurance() {
-       
+
         initComponents();
         showTableData();
         updateTableData();
-        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)insuranceTable.getDefaultRenderer(Object.class);
-        renderer.setHorizontalAlignment( JLabel.CENTER);
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) insuranceTable.getDefaultRenderer(Object.class);
+        renderer.setHorizontalAlignment(JLabel.CENTER);
         insuranceTable.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 15));
         insuranceTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         insuranceTable.getColumnModel().getColumn(1).setPreferredWidth(230);
     }
-    
-    public void showTableData()
-    {
-        try
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
-            sql = "SELECT id AS 'Insurance ID', company_name AS 'Company Name', company_contact AS 'Contact', insurance_type AS 'Insurance Type', total_amount AS 'Total Amount', amount_paid AS 'Amount Paid', balance AS 'Balance' FROM insurancedetails";
-            stmt = conn.prepareStatement(sql);
-            result= stmt.executeQuery();
-            insuranceTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
 
-        catch( SQLException | HeadlessException ex)
-        {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
-                result.close();
-                stmt.close();
-            }
-            
-            catch (SQLException | HeadlessException ex) 
-            {
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }
-        
-        updateTableData();
-        
-    }
-    
-    public void updateTableData()
-    {
-        try
-        {
-            sql = "SELECT id AS 'Insurance ID', company_name AS 'Company Name', company_contact AS 'Contact', insurance_type AS 'Insurance Type', total_amount AS 'Total Amount', amount_paid AS 'Amount Paid', balance AS 'Balance' FROM insurancedetails";           
+    public void showTableData() {
+        try {
+            conn = DatabaseConnection.getConnection();
+            sql = "SELECT id AS 'Insurance ID', company_name AS 'Company Name', company_contact AS 'Contact', insurance_type AS 'Insurance Type', total_amount AS 'Total Amount', amount_paid AS 'Amount Paid', balance AS 'Balance' FROM insurancedetails";
             stmt = conn.prepareStatement(sql);
             result = stmt.executeQuery();
             insuranceTable.setModel(DbUtils.resultSetToTableModel(result));
-        }
-        
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        }
-        
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 result.close();
                 stmt.close();
+            } catch (SQLException | HeadlessException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
+        }
 
-            catch(Exception ex)
-            {
+        updateTableData();
+
+    }
+
+    public void updateTableData() {
+        try {
+            sql = "SELECT id AS 'Insurance ID', company_name AS 'Company Name', company_contact AS 'Contact', insurance_type AS 'Insurance Type', total_amount AS 'Total Amount', amount_paid AS 'Amount Paid', balance AS 'Balance' FROM insurancedetails";
+            stmt = conn.prepareStatement(sql);
+            result = stmt.executeQuery();
+            insuranceTable.setModel(DbUtils.resultSetToTableModel(result));
+        } catch (SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            try {
+                result.close();
+                stmt.close();
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }
@@ -442,17 +419,13 @@ public class Insurance extends javax.swing.JFrame {
         row = insuranceTable.getSelectedRow();
         col = insuranceTable.getModel().getValueAt(row, 0).toString();
 
-        try
-        {
+        try {
             sql = "DELETE FROM insurancedetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
-        }
-
-        catch( SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -478,10 +451,9 @@ public class Insurance extends javax.swing.JFrame {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "INSERT INTO insurancedetails(id, company_name, company_contact, insurance_type, total_amount, amount_paid, balance ) VALUES (?,?,?,?,?,?,total_amount - amount_paid)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, companyTxt.getText());
@@ -489,13 +461,10 @@ public class Insurance extends javax.swing.JFrame {
             stmt.setString(4, typeTxt.getText());
             stmt.setString(5, TotalTxt.getText());
             stmt.setString(6, PaidTxt.getText());
-            
+
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data succesfully added");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -505,10 +474,9 @@ public class Insurance extends javax.swing.JFrame {
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
 
-        try
-        {
+        try {
             sql = "UPDATE insurancedetails SET id=?, company_name=?, company_contact=?, insurance_type=?, total_amount=?, amount_paid=?, balance=total_amount-amount_paid WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(),"root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, companyTxt.getText());
@@ -516,20 +484,17 @@ public class Insurance extends javax.swing.JFrame {
             stmt.setString(4, typeTxt.getText());
             stmt.setString(5, TotalTxt.getText());
             stmt.setString(6, PaidTxt.getText());
-            
+
             stmt.setString(8, idTxt.getText());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data updated succesfully");
-        }
-
-        catch (SQLException | HeadlessException ex)
-        {
+        } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
         updateTableData();
         showTableData();
-    
+
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void minimizeLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLblMouseClicked
