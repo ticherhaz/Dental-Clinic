@@ -28,30 +28,59 @@ public class Print extends javax.swing.JFrame {
     ResultSet result;
     TableRowSorter<DefaultTableModel> tableRow;
 
-    /**
-     * Creates new form Print
-     */
-    public Print() {
+    //get the value
+    public Print(String col) {
         initComponents();
+        this.col = col;
         showTableData();
-
-        labelid.setText(labelid.getText());
-        labelinvoice.setText(labelinvoice.getText());
-        labelcompany.setText(labelcompany.getText());
-        labelcontact.setText(labelcontact.getText());
-        labeltype.setText(labeltype.getText());
-        labeltotal.setText(labeltotal.getText());
-        labelpaid.setText(labelpaid.getText());
-        labelbal.setText(labelbal.getText());
     }
 
+//    /**
+//     * Creates new form Print
+//     */
+//    public Print() {
+//        initComponents();
+//        showTableData();
+//
+//        labelid.setText(labelid.getText());
+//        labelinvoice.setText(labelinvoice.getText());
+//        labelcompany.setText(labelcompany.getText());
+//        labelcontact.setText(labelcontact.getText());
+//        labeltype.setText(labeltype.getText());
+//        labeltotal.setText(labeltotal.getText());
+//        labelpaid.setText(labelpaid.getText());
+//        labelbal.setText(labelbal.getText());
+//    }
     public void showTableData() {
         try {
             conn = DatabaseConnection.getConnection();
-            sql = "SELECT invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = insurancedetails.id";
+            //   sql = "SELECT invoicedetails.id, invoicedetails.invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = " + col;
+
+            //THIS IS NEW SQL, TO CALL BACK THE DATA FROM THE DATABASE.
+            sql = "SELECT invoicedetails.id, invoicedetails.invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON insurancedetails.id = " + col + " AND invoicedetails.id = " + col;
+
             stmt = conn.prepareStatement(sql);
             result = stmt.executeQuery();
-            //(result));
+            if (result.next()) {
+                final String uid = result.getString("invoicedetails.id");
+                final String invoice = result.getString("invoicedetails.invoice");
+                final String companyName = result.getString("insurancedetails.company_name");
+                final String companyContact = result.getString("insurancedetails.company_contact");
+                final String insuranceType = result.getString("insurancedetails.insurance_type");
+                final String totalAmount = result.getString("insurancedetails.total_amount");
+                final String amountPaid = result.getString("insurancedetails.amount_paid");
+                final String balance = result.getString("insurancedetails.balance");
+
+                labelid.setText(uid);
+                labelinvoice.setText(invoice);
+                labelcompany.setText(companyName);
+                labelcontact.setText(companyContact);
+                labeltype.setText(insuranceType);
+                labeltotal.setText("RM" + totalAmount);
+                labelpaid.setText("RM" + amountPaid);
+                labelbal.setText("RM" + balance);
+
+            }
         } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } finally {
@@ -356,7 +385,7 @@ public class Print extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Print().setVisible(true);
+                //  new Print(col).setVisible(true);
             }
         });
     }

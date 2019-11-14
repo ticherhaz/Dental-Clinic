@@ -8,7 +8,6 @@ package dentalclinic;
 import connection.DatabaseConnection;
 import java.awt.*;
 import java.sql.*;
-import java.util.TimeZone;
 import javax.swing.*;
 import javax.swing.table.*;
 import net.proteanit.sql.DbUtils;
@@ -287,6 +286,16 @@ public class Invoice extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        printTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                printTableFocusGained(evt);
+            }
+        });
+        printTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                printTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(printTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -447,7 +456,7 @@ public class Invoice extends javax.swing.JFrame {
 
         try {
             sql = "INSERT INTO invoicedetails(id, invoice) VALUES (?,?)";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, InvoiceTxt.getText());
@@ -465,7 +474,7 @@ public class Invoice extends javax.swing.JFrame {
 
         try {
             sql = "UPDATE invoicedetails SET id=?, invoice=? WHERE id=?";
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, idTxt.getText());
             stmt.setString(2, InvoiceTxt.getText());
@@ -491,7 +500,7 @@ public class Invoice extends javax.swing.JFrame {
 
         try {
             sql = "DELETE FROM invoicedetails WHERE id =" + col;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
+            conn = DatabaseConnection.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.execute();
             JOptionPane.showMessageDialog(null, "Data deleted succesfully");
@@ -508,9 +517,32 @@ public class Invoice extends javax.swing.JFrame {
     }//GEN-LAST:event_InvoiceTxtActionPerformed
 
     private void PrintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintBtnActionPerformed
-        new Print().setVisible(true);
-        dispose();
+        //JTable source = (JTable) evt.getSource();
+
+        // String Hererow = invoiceTable.getValueAt(invoiceTable.getSelectedRow(), invoiceTable.getSelectedColumn()).toString();
+        if (!col.isEmpty()) {
+            new Print(String.valueOf(col)).setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select the item first");
+        }
+
     }//GEN-LAST:event_PrintBtnActionPerformed
+
+    private void printTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_printTableFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printTableFocusGained
+
+    private int colInt;
+    private void printTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printTableMouseClicked
+        // TODO add your handling code here:
+        JTable source = (JTable) evt.getSource();
+        row = source.rowAtPoint(evt.getPoint());
+        colInt = source.columnAtPoint(evt.getPoint());
+        //String s = source.getModel().getValueAt(row, colInt) + "";
+        col = invoiceTable.getModel().getValueAt(row, 0).toString();
+        //JOptionPane.showMessageDialog(null, col);
+    }//GEN-LAST:event_printTableMouseClicked
 
     /**
      * @param args the command line arguments

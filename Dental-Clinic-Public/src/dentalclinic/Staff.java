@@ -109,6 +109,7 @@ public class Staff extends javax.swing.JFrame {
         LabelNo = new javax.swing.JLabel();
         LabelStaff = new javax.swing.JLabel();
         LabelDetails = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -151,6 +152,11 @@ public class Staff extends javax.swing.JFrame {
             }
         });
         staffTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        staffTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                staffTableMouseClicked(evt);
+            }
+        });
         staffScrollPane.setViewportView(staffTable);
 
         signoutBtn.setBackground(new java.awt.Color(102, 51, 153));
@@ -263,197 +269,128 @@ public class Staff extends javax.swing.JFrame {
         LabelDetails.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         LabelDetails.setText("Details");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 51, 153));
+        jLabel1.setText("Staff Details");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(signoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 1033, Short.MAX_VALUE)
-                        .addComponent(minimizeLbl)
-                        .addGap(18, 18, 18)
-                        .addComponent(exitLbl)))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(staffScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(staffSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(staffLbl)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(staffSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(staffLbl))
+                            .addComponent(staffScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(updateBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(nameTxt)
-                            .addComponent(idTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                            .addComponent(LabelStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(LabelNo, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(signoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(LabelDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(detailsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(1, 1, 1)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addGap(345, 345, 345)
+                        .addComponent(jLabel1)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(LabelNo, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(minimizeLbl)
+                            .addGap(28, 28, 28)
+                            .addComponent(exitLbl)))
+                    .addComponent(LabelStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(detailsTxt)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(updateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteBtn)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(exitLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(minimizeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(9, 9, 9)
-                        .addComponent(staffLbl)
-                        .addGap(55, 55, 55)
-                        .addComponent(staffSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(staffScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(115, 115, 115)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(signoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(backBtn)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(staffLbl))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(LabelNo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(minimizeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(exitLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(staffSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LabelNo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LabelStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(LabelStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(detailsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addBtn)
-                            .addComponent(updateBtn)
-                            .addComponent(deleteBtn))))
-                .addGap(30, 30, 30))
+                        .addComponent(detailsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(staffScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(signoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(backBtn)
+                    .addComponent(addBtn)
+                    .addComponent(updateBtn)
+                    .addComponent(deleteBtn))
+                .addGap(226, 226, 226))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void staffSearchBarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_staffSearchBarFocusGained
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
 
-        if (staffSearchBar.getText().equals("Search")) {
-            staffSearchBar.setText("");
-        }
-    }//GEN-LAST:event_staffSearchBarFocusGained
-
-    private void staffSearchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_staffSearchBarFocusLost
-
-        if (staffSearchBar.getText().equals("")) {
-            staffSearchBar.setText("Search");
-        }
-    }//GEN-LAST:event_staffSearchBarFocusLost
-
-    private void signoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutBtnActionPerformed
-
-        dispose();
-        new LogIn().setVisible(true);
-    }//GEN-LAST:event_signoutBtnActionPerformed
-
-    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-
-        dispose();
-        new Dashboard().setVisible(true);
-    }//GEN-LAST:event_backBtnActionPerformed
-
-    private void minimizeLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLblMouseClicked
-        setState(ICONIFIED);
-    }//GEN-LAST:event_minimizeLblMouseClicked
-
-    private void exitLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitLblMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_exitLblMouseClicked
-
-    private void nameTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusGained
-        if (nameTxt.getText().equals("Staff Name")) {
-            nameTxt.setText("");
-        }
-    }//GEN-LAST:event_nameTxtFocusGained
-
-    private void nameTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusLost
-        if (nameTxt.getText().equals("")) {
-            nameTxt.setText("Staff Name");
-        }
-    }//GEN-LAST:event_nameTxtFocusLost
-
-    private void detailsTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusGained
-        if (detailsTxt.getText().equals("Details")) {
-            detailsTxt.setText("");
-        }
-    }//GEN-LAST:event_detailsTxtFocusGained
-
-    private void detailsTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusLost
-        if (detailsTxt.getText().equals("")) {
-            detailsTxt.setText("Details");
-        }
-    }//GEN-LAST:event_detailsTxtFocusLost
-
-    private void idTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusGained
-        if (idTxt.getText().equals("No")) {
-            idTxt.setText("");
-        }
-    }//GEN-LAST:event_idTxtFocusGained
-
-    private void idTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusLost
-        if (idTxt.getText().equals("")) {
-            idTxt.setText("No");
-        }
-    }//GEN-LAST:event_idTxtFocusLost
-
-    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-
-        try {
-            sql = "INSERT INTO staffdetails(staff_name, staff_details) VALUES (?,?)";
+        String sql= "delete from staffdetails where id =?";
+    
+        try{
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nameTxt.getText());
-            stmt.setString(2, detailsTxt.getText());
+            stmt=conn.prepareStatement(sql);
+            stmt.setString(1, idTxt.getText());
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data succesfully added");
-        } catch (SQLException | HeadlessException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
+            
+            JOptionPane.showMessageDialog(null,"Data succesfully deleted");
 
+        }
+        catch(SQLException | HeadlessException ex)
+        {
+        JOptionPane.showMessageDialog(null,ex);
+        }
+        
         updateTableData();
         showTableData();
-    }//GEN-LAST:event_addBtnActionPerformed
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
 
@@ -474,24 +411,117 @@ public class Staff extends javax.swing.JFrame {
         showTableData();
     }//GEN-LAST:event_updateBtnActionPerformed
 
-    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-
-        row = staffTable.getSelectedRow();
-        col = staffTable.getModel().getValueAt(row, 0).toString();
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 
         try {
-            sql = "DELETE FROM staffdetails WHERE id =" + col;
+            sql = "INSERT INTO staffdetails(staff_name, staff_details) VALUES (?,?)";
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dentalclinic?serverTimezone=" + TimeZone.getDefault().getID(), "root", "");
             stmt = conn.prepareStatement(sql);
-            stmt.execute();
-            JOptionPane.showMessageDialog(null, "Data deleted succesfully");
+            stmt.setString(1, nameTxt.getText());
+            stmt.setString(2, detailsTxt.getText());
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data succesfully added");
         } catch (SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
 
         updateTableData();
         showTableData();
-    }//GEN-LAST:event_deleteBtnActionPerformed
+    }//GEN-LAST:event_addBtnActionPerformed
+
+    private void idTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusLost
+        if (idTxt.getText().equals("")) {
+            idTxt.setText("No");
+        }
+    }//GEN-LAST:event_idTxtFocusLost
+
+    private void idTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idTxtFocusGained
+        if (idTxt.getText().equals("No")) {
+            idTxt.setText("");
+        }
+    }//GEN-LAST:event_idTxtFocusGained
+
+    private void detailsTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusLost
+        if (detailsTxt.getText().equals("")) {
+            detailsTxt.setText("Details");
+        }
+    }//GEN-LAST:event_detailsTxtFocusLost
+
+    private void detailsTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detailsTxtFocusGained
+        if (detailsTxt.getText().equals("Details")) {
+            detailsTxt.setText("");
+        }
+    }//GEN-LAST:event_detailsTxtFocusGained
+
+    private void nameTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusLost
+        if (nameTxt.getText().equals("")) {
+            nameTxt.setText("Staff Name");
+        }
+    }//GEN-LAST:event_nameTxtFocusLost
+
+    private void nameTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTxtFocusGained
+        if (nameTxt.getText().equals("Staff Name")) {
+            nameTxt.setText("");
+        }
+    }//GEN-LAST:event_nameTxtFocusGained
+
+    private void exitLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitLblMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_exitLblMouseClicked
+
+    private void minimizeLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLblMouseClicked
+        setState(ICONIFIED);
+    }//GEN-LAST:event_minimizeLblMouseClicked
+
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+
+        dispose();
+        new Dashboard().setVisible(true);
+    }//GEN-LAST:event_backBtnActionPerformed
+
+    private void signoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutBtnActionPerformed
+
+        dispose();
+        new LogIn().setVisible(true);
+    }//GEN-LAST:event_signoutBtnActionPerformed
+
+    private void staffSearchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_staffSearchBarFocusLost
+
+        if (staffSearchBar.getText().equals("")) {
+            staffSearchBar.setText("Search");
+        }
+    }//GEN-LAST:event_staffSearchBarFocusLost
+
+    private void staffSearchBarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_staffSearchBarFocusGained
+
+        if (staffSearchBar.getText().equals("Search")) {
+            staffSearchBar.setText("");
+        }
+    }//GEN-LAST:event_staffSearchBarFocusGained
+
+    private void staffTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTableMouseClicked
+        // TODO add your handling code here:
+         try
+        {
+           int r = staffTable.getSelectedRow();
+           String rowClick = (staffTable.getModel().getValueAt(r,0).toString());
+           String sql1= "select * from staffdetails where id='"+rowClick+"'";
+           stmt=conn.prepareStatement(sql1);
+           result = stmt.executeQuery();
+           
+           if (result.next())
+           {
+               idTxt.setText(result.getString("id")) ;
+               nameTxt.setText(result.getString("staff_name")) ;
+               detailsTxt.setText(result.getString("staff_details")) ;
+           }
+        }
+        catch(Exception ex)
+        {
+        JOptionPane.showMessageDialog(null,ex);
+        }
+        
+    }//GEN-LAST:event_staffTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -538,6 +568,7 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JTextField detailsTxt;
     private javax.swing.JLabel exitLbl;
     private javax.swing.JTextField idTxt;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel minimizeLbl;
     private javax.swing.JTextField nameTxt;
