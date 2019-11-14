@@ -53,7 +53,6 @@ public class Print extends javax.swing.JFrame {
 //    }
     public void showTableData() {
         try {
-            JOptionPane.showMessageDialog(null, col);
             conn = DatabaseConnection.getConnection();
             //   sql = "SELECT invoicedetails.id, invoicedetails.invoice , insurancedetails.company_name , insurancedetails.company_contact , insurancedetails.insurance_type , insurancedetails.total_amount , insurancedetails.amount_paid , insurancedetails.balance FROM invoicedetails JOIN insurancedetails ON invoicedetails.id = " + col;
 
